@@ -2,3 +2,4 @@ client/node_modules
 *.json
 draft*
 build
+data_all_years_expenses_by_months.py
