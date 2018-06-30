@@ -1,5 +1,5 @@
 # DataFlow
-is an application that fetches data from Google Sheets API and builds
+is a data visualisation application that fetches data from Google Sheets API and represents it in graphs.
 
 ## Tech stack
 * Python
