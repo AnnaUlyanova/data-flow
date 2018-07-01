@@ -17,5 +17,6 @@ python -m http.server 8080
 
 ```
 cd /client
+yarn
 yarn start
 ```
