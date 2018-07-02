@@ -22,6 +22,12 @@ def find_fees_worksheets():
 
 filtered_nzfees_worksheet_list = list(find_fees_worksheets())
 
+all_years_list = []
+i = 0
+while (i < len(filtered_nzfees_worksheet_list)):
+    all_years_list.append(int(filtered_nzfees_worksheet_list[i].title))
+    i += 1
+
 def has_year_in_title(sheet):
     return sheet.title.find('201') == 0
 
@@ -114,23 +120,18 @@ year_2018_rent = calculate_average_rent(year_2018_cells)
 
 pp.pprint('year_2018_rent ' + str(year_2018_rent))
 
+rent_list = [year_2013_rent, year_2014_rent, year_2015_rent, year_2016_rent, year_2017_rent, year_2018_rent]
+
+all_years_rent_object = {}
+i = 0
+while (i < len(all_years_list)):
+    all_years_rent_object[all_years_list[i]] = rent_list[i]
+    i += 1
+
 # put rent expenses into json
-rent_2013 = {}
-rent_2014 = {}
-rent_2015 = {}
-rent_2016 = {}
-rent_2017 = {}
-rent_2018 = {}
-
-rent_2017['2013'] = year_2013_rent
-rent_2017['2014'] = year_2014_rent
-rent_2017['2015'] = year_2015_rent
-rent_2017['2016'] = year_2016_rent
-rent_2017['2017'] = year_2017_rent
-rent_2017['2018'] = year_2018_rent
-
-all_years_rent = {**rent_2013, **rent_2014, **rent_2015, **rent_2016, **rent_2017, **rent_2018}
-all_years_rent_str = json.dumps(all_years_rent)
+rent = {}
+rent['rent'] = all_years_rent_object
+all_years_rent_str = json.dumps(rent)
 
 with open('data_rent_expenses.json', 'a') as data_rent_expenses:
     data_rent_expenses.write(all_years_rent_str)
