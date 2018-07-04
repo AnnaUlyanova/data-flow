@@ -77,7 +77,7 @@ year_2013_rent_total = calculate_total_rent(year_2013_rent_list_int)
 pp.pprint('year_2013_rent_average ' + str(year_2013_rent_average))
 pp.pprint('year_2013_rent_total ' + str(year_2013_rent_total))
 
-list rent expenses for 2014
+# list rent expenses for 2014
 
 year_2014_worksheet = nzfees_worksheet.worksheet("2014")
 year_2014_cells = []
@@ -101,7 +101,7 @@ year_2015_rent_total = calculate_total_rent(year_2015_cells)
 pp.pprint('year_2015_rent_average ' + str(year_2015_rent_average))
 pp.pprint('year_2015_rent_total ' + str(year_2015_rent_total))
 
-list rent expenses for 2016
+# list rent expenses for 2016
 
 year_2016_worksheet = nzfees_worksheet.worksheet("2016")
 year_2016_cells = []
@@ -113,7 +113,7 @@ year_2016_rent_total = calculate_total_rent(year_2016_cells)
 pp.pprint('year_2016_rent_average ' + str(year_2016_rent_average))
 pp.pprint('year_2016_rent_total ' + str(year_2016_rent_total))
 
-list rent expenses for 2017
+# list rent expenses for 2017
 
 year_2017_worksheet = nzfees_worksheet.worksheet("2017")
 year_2017_cells = []
@@ -137,6 +137,17 @@ year_2018_rent_total = calculate_total_rent(year_2018_cells)
 pp.pprint('year_2018_rent_average ' + str(year_2018_rent_average))
 pp.pprint('year_2018_rent_total ' + str(year_2018_rent_total))
 
+def list_category_expenses(year, category_cell_num, year_cells):
+    year_worksheet = nzfees_worksheet.worksheet(year)
+
+    create_expenses_array(category_cell_num, year_cells, year_worksheet)
+    year_category_average = calculate_average_rent(year_cells)
+    year_category_total = calculate_total_rent(year_cells)
+    result = {year['average']: year_category_average, year['total']: year_category_total}
+    return result
+
+#merge expenses into one object
+
 rent_list_average = [year_2013_rent_average, year_2014_rent_average, year_2015_rent_average, year_2016_rent_average, year_2017_rent_average, year_2018_rent_average]
 rent_list_total = [year_2013_rent_total, year_2014_rent_total, year_2015_rent_total, year_2016_rent_total, year_2017_rent_total, year_2018_rent_total]
 
@@ -148,7 +159,7 @@ while (i < len(all_years_list)):
     all_years_rent_average[all_years_list[i]] = rent_list_average[i]
     all_years_rent_total[all_years_list[i]] = rent_list_total[i]
     i += 1
-    
+
 all_years_rent_object = {**all_years_rent_average, **all_years_rent_total}
 
 # put rent expenses into json
