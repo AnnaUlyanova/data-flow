@@ -51,21 +51,21 @@ def convert_str_to_int(old_list):
 def find_average_amount(expense_list):
     return sum(expense_list)/len(expense_list)
 
-def calculate_average_rent(year_category_cells):
+def calculate_average_for_category(year_category_cells):
     year_category_expenses = list(find_category_expenses(year_category_cells))
-    year_rent_list_int = convert_str_to_int(year_category_expenses)
-    return find_average_amount(year_rent_list_int)
+    year_category_list_int = convert_str_to_int(year_category_expenses)
+    return find_average_amount(year_category_list_int)
 
-def calculate_total_rent(year_category_cells):
+def calculate_total_for_category(year_category_cells):
     year_category_expenses = list(find_category_expenses(year_category_cells))
-    year_rent_list_int = convert_str_to_int(year_category_expenses)
-    return sum(year_rent_list_int)
+    year_category_list_int = convert_str_to_int(year_category_expenses)
+    return sum(year_category_list_int)
 
 def list_category_expenses(year, category_cell_num, year_cells):
     year_worksheet = nzfees_worksheet.worksheet(year)
     create_expenses_array(category_cell_num, year_cells, year_worksheet)
-    year_category_average = calculate_average_rent(year_cells)
-    year_category_total = calculate_total_rent(year_cells)
+    year_category_average = calculate_average_for_category(year_cells)
+    year_category_total = calculate_total_for_category(year_cells)
     result = {
         year: {
             'average': year_category_average,
