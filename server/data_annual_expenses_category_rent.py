@@ -25,10 +25,9 @@ filtered_nzfees_worksheet_list = list(find_fees_worksheets())
 all_years_list = []
 i = 0
 while (i < len(filtered_nzfees_worksheet_list)):
-    all_years_list.append(int(filtered_nzfees_worksheet_list[i].title))
+    all_years_list.append(filtered_nzfees_worksheet_list[i].title)
     i += 1
 all_years_list_in_order = all_years_list[::-1]
-
 def has_year_in_title(sheet):
     return sheet.title.find('201') == 0
 
@@ -62,123 +61,47 @@ def calculate_total_rent(year_category_cells):
     year_rent_list_int = convert_str_to_int(year_category_expenses)
     return sum(year_rent_list_int)
 
-# list rent expenses for 2013
-year_2013_worksheet = nzfees_worksheet.worksheet("2013")
-year_2013_cells = []
-
-create_expenses_array(2, year_2013_cells, year_2013_worksheet)
-
-year_2013_category_expenses = list(find_category_expenses(year_2013_cells))
-year_2013_rent_list_int = convert_str_to_int(year_2013_category_expenses)
-
-# -1 because started from February
-year_2013_rent_average = sum(year_2013_rent_list_int)/(len(year_2013_rent_list_int) - 1)
-year_2013_rent_total = calculate_total_rent(year_2013_cells)
-
-pp.pprint('year_2013_rent_average ' + str(year_2013_rent_average))
-pp.pprint('year_2013_rent_total ' + str(year_2013_rent_total))
-
-# list rent expenses for 2014
-
-year_2014_worksheet = nzfees_worksheet.worksheet("2014")
-year_2014_cells = []
-
-create_expenses_array(2, year_2014_cells, year_2014_worksheet)
-year_2014_rent_average = calculate_average_rent(year_2014_cells)
-year_2014_rent_total = calculate_total_rent(year_2014_cells)
-
-pp.pprint('year_2014_rent_average ' + str(year_2014_rent_average))
-pp.pprint('year_2014_rent_total ' + str(year_2014_rent_total))
-
-# list rent expenses for 2015
-
-year_2015_worksheet = nzfees_worksheet.worksheet("2015")
-year_2015_cells = []
-
-create_expenses_array(2, year_2015_cells, year_2015_worksheet)
-year_2015_rent_average = calculate_average_rent(year_2015_cells)
-year_2015_rent_total = calculate_total_rent(year_2015_cells)
-
-pp.pprint('year_2015_rent_average ' + str(year_2015_rent_average))
-pp.pprint('year_2015_rent_total ' + str(year_2015_rent_total))
-
-# list rent expenses for 2016
-
-year_2016_worksheet = nzfees_worksheet.worksheet("2016")
-year_2016_cells = []
-
-create_expenses_array(2, year_2016_cells, year_2016_worksheet)
-year_2016_rent_average = calculate_average_rent(year_2016_cells)
-year_2016_rent_total = calculate_total_rent(year_2016_cells)
-
-pp.pprint('year_2016_rent_average ' + str(year_2016_rent_average))
-pp.pprint('year_2016_rent_total ' + str(year_2016_rent_total))
-
-# list rent expenses for 2017
-
-year_2017_worksheet = nzfees_worksheet.worksheet("2017")
-year_2017_cells = []
-
-create_expenses_array(2, year_2017_cells, year_2017_worksheet)
-year_2017_rent_average = calculate_average_rent(year_2017_cells)
-year_2017_rent_total = calculate_total_rent(year_2017_cells)
-
-pp.pprint('year_2017_rent_average ' + str(year_2017_rent_average))
-pp.pprint('year_2017_rent_total ' + str(year_2017_rent_total))
-
-# list rent expenses for 2018
-
-year_2018_worksheet = nzfees_worksheet.worksheet("2018")
-year_2018_cells = []
-
-create_expenses_array(2, year_2018_cells, year_2018_worksheet)
-year_2018_rent_average = calculate_average_rent(year_2018_cells)
-year_2018_rent_total = calculate_total_rent(year_2018_cells)
-
-pp.pprint('year_2018_rent_average ' + str(year_2018_rent_average))
-pp.pprint('year_2018_rent_total ' + str(year_2018_rent_total))
-
 def list_category_expenses(year, category_cell_num, year_cells):
     year_worksheet = nzfees_worksheet.worksheet(year)
-
     create_expenses_array(category_cell_num, year_cells, year_worksheet)
     year_category_average = calculate_average_rent(year_cells)
     year_category_total = calculate_total_rent(year_cells)
-    result = {year['average']: year_category_average, year['total']: year_category_total}
-    return result
-
-# merge expenses into one object
-
-rent_list_average = [year_2013_rent_average, year_2014_rent_average, year_2015_rent_average, year_2016_rent_average, year_2017_rent_average, year_2018_rent_average]
-rent_list_total = [year_2013_rent_total, year_2014_rent_total, year_2015_rent_total, year_2016_rent_total, year_2017_rent_total, year_2018_rent_total]
-
-rent_list_average = [year_2015_rent_average, year_2016_rent_average]
-rent_list_total = [year_2015_rent_total, year_2015_rent_total]
-all_years_rent_average = {}
-all_years_rent_total = {}
-
-a = 0
-while (a < len(all_years_list_in_order)):
-    all_years_rent_average[all_years_list_in_order[a]] = rent_list_average[a]
-    a += 1
-
-t = 0
-while (t < len(all_years_list_in_order)):
-    all_years_rent_total[all_years_list_in_order[t]] = rent_list_total[t]
-    t += 1
-
-pp.pprint(all_years_rent_total)
-pp.pprint(all_years_rent_average)
-
-# put rent expenses into json
-rent = {
-    'rent': {
-        'rent_total': all_years_rent_total,
-        'rent_average':  all_years_rent_average
+    result = {
+        year: {
+            'average': year_category_average,
+            'total': year_category_total
         }
     }
-pp.pprint(rent)
-all_years_rent_str = json.dumps(rent)
+    return result
 
-with open('data_rent_expenses.json', 'a') as data_rent_expenses:
-    data_rent_expenses.write(all_years_rent_str)
+def get_category_expenses (cell):
+    result = []
+    a = 0
+    while (a < len(all_years_list_in_order)):
+        this_year = list_category_expenses(all_years_list_in_order[a], cell, [])
+        result.append(this_year)
+        a += 1
+    return result
+
+rent = list(get_category_expenses(2))
+food_home = list(get_category_expenses(4))
+food_outside = list(get_category_expenses(5))
+home_facilities = list(get_category_expenses(6))
+wellbeing = list(get_category_expenses(9))
+sport = list(get_category_expenses(11))
+car = list(get_category_expenses(13))
+
+all_categories_object = {
+    'rent': rent,
+    'food_home': food_home,
+    'food_outside': food_outside,
+    'home_facilities': home_facilities,
+    'wellbeing': wellbeing,
+    'sport': sport,
+    'car': car
+}
+
+all_categories_annual_str = json.dumps(all_categories_object)
+
+with open('data_categories_expenses.json', 'a') as data_categories_expenses:
+    data_categories_expenses.write(all_categories_annual_str)
