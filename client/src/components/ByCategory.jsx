@@ -2,7 +2,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-function ByCategory ({ categories }) {
+function ByCategory ({
+  categories,
+  allCategoriesData,
+  showDataForCategory,
+  yearsForSelectedCategory,
+  totalExpensesForSelectedCategory,
+  averageExpensesForSelectedCategory
+}) {
 
   if (!categories) {
     return (
@@ -11,7 +18,8 @@ function ByCategory ({ categories }) {
   }
 
   function handleOnChange(event) {
-
+    const selectedCategory = event.target.value
+    return showDataForCategory(allCategoriesData, selectedCategory)
   }
   return (
     <div>
@@ -21,7 +29,9 @@ function ByCategory ({ categories }) {
           <option value={category}>{category}</option>
         )}
       </select>
-      
+      {yearsForSelectedCategory && <p>total dataForSelectedCategory: {yearsForSelectedCategory}, {totalExpensesForSelectedCategory}</p>}
+      {yearsForSelectedCategory && <p>average dataForSelectedCategory: {yearsForSelectedCategory}, {averageExpensesForSelectedCategory}</p>}
+
     </div>
   )
 }

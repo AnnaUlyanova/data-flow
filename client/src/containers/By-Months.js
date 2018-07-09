@@ -12,10 +12,8 @@ import {
    values
  } from 'ramda'
 
- import { annualExpeneseByMonths } from '../main-data'
+ import { annualExpeneseByMonths, getYears } from '../main-data'
  import ByMonths from '../components/ByMonths'
-
- const getYears = annualExpeneseByMonths.then((data) => map(replace(/year /, ''), keys(data)))
 
  export const enhance = compose(
   lifecycle({
