@@ -7,7 +7,7 @@ import ByCategory from './containers/By-Category'
 function App () {
   return (
     <div>
-      <h1>Hello, world!</h1>
+      <h1>NZ Fees Statistics</h1>
       <ByMonths />
       <ByCategory />
     </div>

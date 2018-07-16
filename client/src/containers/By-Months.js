@@ -9,7 +9,10 @@ import {
    map,
    replace,
    propOr,
-   values
+   values,
+   zipObj,
+   objOf,
+   merge
  } from 'ramda'
 
  import { annualExpeneseByMonths, getYears } from '../main-data'
@@ -35,10 +38,18 @@ import {
       dataForSelectedYear: initialData
     }),
     {
-      showDataForYear: ({ dataForSelectedYear }) => (allYearsData, year) => {
+      showDataForYear: ({ dataForSelectedYear }) => (allYearsData, year, monthsForSelectedYear, expensesForSelectedYear) => {
+        const first = map(objOf('x'), monthsForSelectedYear)
+        const second = map(objOf('y'), expensesForSelectedYear)
+        const mergeResult2 = []
+        for (let i=0; i<first.length; i++) {
+          mergeResult2.push(merge(first[i], second[i]))
+          i++
+        }
         return ({
           monthsForSelectedYear: keys(propOr('', year, allYearsData)[0]),
-          expensesForSelectedYear: values(propOr('', year, allYearsData)[0])
+          expensesForSelectedYear: values(propOr('', year, allYearsData)[0]),
+          dataForD3: [{ values: mergeResult2}]
         })
       }
    }
