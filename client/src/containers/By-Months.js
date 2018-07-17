@@ -39,17 +39,27 @@ import {
     }),
     {
       showDataForYear: ({ dataForSelectedYear }) => (allYearsData, year, monthsForSelectedYear, expensesForSelectedYear) => {
-        const first = map(objOf('x'), monthsForSelectedYear)
-        const second = map(objOf('y'), expensesForSelectedYear)
-        const mergeResult2 = []
-        for (let i=0; i<first.length; i++) {
-          mergeResult2.push(merge(first[i], second[i]))
-          i++
+        const generateDataForD3 = (year) => {
+          console.log('1111 year', year)
+          const months = keys(propOr('', year, allYearsData)[0])
+          const expenses = values(propOr('', year, allYearsData)[0])
+          const result = []
+          for (let i = 0; i < months.length; i++) {
+            const dataToPush = {x: months[i], y: expenses[i]}
+            result.push(dataToPush)
+         }
+          return result
         }
+
+        const dataForD3 = [{
+          label: year,
+          values: generateDataForD3(year)
+        }]
+
         return ({
           monthsForSelectedYear: keys(propOr('', year, allYearsData)[0]),
           expensesForSelectedYear: values(propOr('', year, allYearsData)[0]),
-          dataForD3: [{ values: mergeResult2}]
+          dataForD3: dataForD3
         })
       }
    }
