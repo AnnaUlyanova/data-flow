@@ -42,7 +42,8 @@ import {
         const generateDataForD3 = (year) => {
           console.log('1111 year', year)
           const months = keys(propOr('', year, allYearsData)[0])
-          const expenses = values(propOr('', year, allYearsData)[0])
+          //ToDo remove $
+          const expenses = map(parseInt, values(propOr('', year, allYearsData)[0]))
           const result = []
           for (let i = 0; i < months.length; i++) {
             const dataToPush = {x: months[i], y: expenses[i]}
@@ -58,7 +59,7 @@ import {
 
         return ({
           monthsForSelectedYear: keys(propOr('', year, allYearsData)[0]),
-          expensesForSelectedYear: values(propOr('', year, allYearsData)[0]),
+          expensesForSelectedYear: map(parseInt, values(propOr('', year, allYearsData)[0])),
           dataForD3: dataForD3
         })
       }

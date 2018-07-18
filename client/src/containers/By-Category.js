@@ -40,10 +40,34 @@ import {
        dataForSelectedCategory: initialData
      }),
       { showDataForCategory: ({ dataForSelectedCategory }) => (allCategoriesData, category) => {
+
+        const generateDataForD3 = (category, value) => {
+          const years = flatten(map(keys, pathOr('', [category], allCategoriesData)))
+
+          const totalValues = map(prop('total'), flatten(map(values, propOr('', [category], allCategoriesData))))
+          const averageValues = map(prop('average'), flatten(map(values, propOr('', [category], allCategoriesData))))
+          const totalOrAverage = value === 'total' ? totalValues : averageValues
+
+          const result = []
+          for (let i = 0; i < years.length; i++) {
+            const dataToPush = {x: years[i], y: totalOrAverage[i]}
+            result.push(dataToPush)
+          }
+          return result
+        }
+
          return ({
-           yearsForSelectedCategory: flatten(map(keys, pathOr('', ['rent'], allCategoriesData))),
+           yearsForSelectedCategory: flatten(map(keys, pathOr('', [category], allCategoriesData))),
            totalExpensesForSelectedCategory: map(prop('total'), flatten(map(values, propOr('', [category], allCategoriesData)))),
            averageExpensesForSelectedCategory: map(prop('average'), flatten(map(values, propOr('', [category], allCategoriesData)))),
+           totalDataForD3: [{
+             label: category,
+             values: generateDataForD3(category, 'total')
+           }],
+           averageDataForD3: [{
+             label: category,
+             values: generateDataForD3(category, 'average')
+           }]
          })
        }
     }

@@ -8,7 +8,9 @@ function ByCategory ({
   showDataForCategory,
   yearsForSelectedCategory,
   totalExpensesForSelectedCategory,
-  averageExpensesForSelectedCategory
+  averageExpensesForSelectedCategory,
+  totalDataForD3,
+  averageDataForD3
 }) {
 
   if (!categories) {
@@ -16,6 +18,8 @@ function ByCategory ({
       <p>No data available</p>
     )
   }
+console.log('CAT totalDataForD3', totalDataForD3)
+console.log('CAT averageDataForD3', averageDataForD3)
 
   function handleOnChange(event) {
     const selectedCategory = event.target.value
