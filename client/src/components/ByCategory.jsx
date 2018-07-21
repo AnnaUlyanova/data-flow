@@ -1,6 +1,7 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { BarChart } from 'react-d3-components'
 
 function ByCategory ({
   categories,
@@ -10,7 +11,11 @@ function ByCategory ({
   totalExpensesForSelectedCategory,
   averageExpensesForSelectedCategory,
   totalDataForD3,
-  averageDataForD3
+  averageDataForD3,
+  showTotalData,
+  totalOrAverageDataForD3,
+  toggledDataForD3,
+  currentCategory
 }) {
 
   if (!categories) {
@@ -18,13 +23,12 @@ function ByCategory ({
       <p>No data available</p>
     )
   }
-console.log('CAT totalDataForD3', totalDataForD3)
-console.log('CAT averageDataForD3', averageDataForD3)
 
-  function handleOnChange(event) {
+  function handleOnChange(event, toggledData) {
     const selectedCategory = event.target.value
-    return showDataForCategory(allCategoriesData, selectedCategory)
+    return showDataForCategory(allCategoriesData, selectedCategory, toggledData)
   }
+
   return (
     <div>
       <h1>Annual expenses for a selected category</h1>
@@ -33,9 +37,15 @@ console.log('CAT averageDataForD3', averageDataForD3)
           <option value={category}>{category}</option>
         )}
       </select>
-      {yearsForSelectedCategory && <p>total dataForSelectedCategory: {yearsForSelectedCategory}, {totalExpensesForSelectedCategory}</p>}
-      {yearsForSelectedCategory && <p>average dataForSelectedCategory: {yearsForSelectedCategory}, {averageExpensesForSelectedCategory}</p>}
-
+      <button onClick={(event)=>handleOnChange(event, totalDataForD3)}>Show total annual expenses for {currentCategory}</button>
+      <button onClick={(event)=>handleOnChange(event, averageDataForD3)}>Show average annual expenses for {currentCategory}</button>
+//TODO abstract BarChart
+      <BarChart
+            data={toggledDataForD3}
+            width={900}
+            height={400}
+            margin={{top: 10, bottom: 50, left: 50, right: 10}}
+        />
     </div>
   )
 }

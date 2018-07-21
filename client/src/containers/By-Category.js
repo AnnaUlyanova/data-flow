@@ -39,7 +39,7 @@ import {
      ({ initialData = [] }) => ({
        dataForSelectedCategory: initialData
      }),
-      { showDataForCategory: ({ dataForSelectedCategory }) => (allCategoriesData, category) => {
+      { showDataForCategory: ({ dataForSelectedCategory }) => (allCategoriesData, category, toggledData) => {
 
         const generateDataForD3 = (category, value) => {
           const years = flatten(map(keys, pathOr('', [category], allCategoriesData)))
@@ -67,10 +67,13 @@ import {
            averageDataForD3: [{
              label: category,
              values: generateDataForD3(category, 'average')
-           }]
+           }],
+           currentCategory: category,
+           toggledDataForD3: toggledData
          })
        }
     }
+
   )
  )
 
